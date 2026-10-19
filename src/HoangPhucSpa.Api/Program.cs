@@ -34,7 +34,7 @@ builder.Services.AddSingleton(_ => HoangPhucSpa.Data.Text.ContentSanitizer.Creat
 
 // Đọc connection string trong lambda (lazy) để WebApplicationFactory.UseSetting ghi đè được
 builder.Services.AddDbContext<AppDbContext>((sp, o) => o
-    .UseSqlServer(builder.Configuration.GetConnectionString("Default"))
+    .UseNpgsql(builder.Configuration.GetConnectionString("Default"))
     .AddInterceptors(sp.GetRequiredService<AuditSaveChangesInterceptor>()));
 
 builder.Services.AddProblemDetails();

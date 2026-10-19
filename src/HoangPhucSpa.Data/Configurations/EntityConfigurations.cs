@@ -10,7 +10,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
     {
         b.Property(x => x.Name).HasMaxLength(200);
         b.Property(x => x.Slug).HasMaxLength(200);
-        b.HasIndex(x => x.Slug).IsUnique().HasFilter("[DeletedAt] IS NULL");
+        b.HasIndex(x => x.Slug).IsUnique().HasFilter("\"DeletedAt\" IS NULL");
         b.Property(x => x.Summary).HasMaxLength(1000);
         b.Property(x => x.SeoTitle).HasMaxLength(200);
         b.Property(x => x.SeoDescription).HasMaxLength(500);
@@ -36,7 +36,7 @@ public class SubServiceConfiguration : IEntityTypeConfiguration<SubService>
     {
         b.Property(x => x.Name).HasMaxLength(200);
         b.Property(x => x.Slug).HasMaxLength(200);
-        b.HasIndex(x => new { x.ServiceId, x.Slug }).IsUnique().HasFilter("[DeletedAt] IS NULL");
+        b.HasIndex(x => new { x.ServiceId, x.Slug }).IsUnique().HasFilter("\"DeletedAt\" IS NULL");
         b.Property(x => x.Summary).HasMaxLength(1000);
         b.Property(x => x.SeoTitle).HasMaxLength(200);
         b.Property(x => x.SeoDescription).HasMaxLength(500);
@@ -81,10 +81,10 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
     {
         b.Property(x => x.Name).HasMaxLength(300);
         b.Property(x => x.Slug).HasMaxLength(300);
-        b.Property(x => x.PublicId).HasComputedColumnSql("COALESCE([LegacyId], [Id])", stored: true);
+        b.Property(x => x.PublicId).HasComputedColumnSql("COALESCE(\"LegacyId\", \"Id\")", stored: true);
         b.HasIndex(x => new { x.Kind, x.PublicId }).IsUnique();
-        b.HasIndex(x => new { x.Kind, x.LegacyId }).IsUnique().HasFilter("[LegacyId] IS NOT NULL");
-        b.HasIndex(x => new { x.Kind, x.Slug }).HasFilter("[DeletedAt] IS NULL");
+        b.HasIndex(x => new { x.Kind, x.LegacyId }).IsUnique().HasFilter("\"LegacyId\" IS NOT NULL");
+        b.HasIndex(x => new { x.Kind, x.Slug }).HasFilter("\"DeletedAt\" IS NULL");
         b.Property(x => x.Summary).HasMaxLength(1000);
         b.Property(x => x.SeoTitle).HasMaxLength(200);
         b.Property(x => x.SeoDescription).HasMaxLength(500);
