@@ -33,5 +33,20 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     {
         base.OnModelCreating(b);
         b.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+        b.Entity<AppRole>().HasData(
+            new AppRole("Admin")
+            {
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "11111111-1111-1111-1111-111111111111",
+            },
+            new AppRole("Editor")
+            {
+                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                NormalizedName = "EDITOR",
+                ConcurrencyStamp = "22222222-2222-2222-2222-222222222222",
+            }
+        );
     }
 }

@@ -30,6 +30,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, HttpCurrentUser>();
 builder.Services.AddScoped<AuditSaveChangesInterceptor>();
 builder.Services.AddSingleton<MediaUrlBuilder>();
+builder.Services.AddSingleton(_ => HoangPhucSpa.Data.Text.ContentSanitizer.Create());
 
 // Đọc connection string trong lambda (lazy) để WebApplicationFactory.UseSetting ghi đè được
 builder.Services.AddDbContext<AppDbContext>((sp, o) => o
@@ -40,6 +41,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddValidation();
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
+builder.Services.AddAppRateLimiting();
 builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
 
@@ -63,6 +65,8 @@ app.UseForwardedHeaders();           // phải đứng đầu để IP/scheme đ
 app.UseExceptionHandler();           // lỗi không bắt → 500 ProblemDetails, không lộ stack trace
 app.UseStatusCodePages();            // 404/405 không có body → ProblemDetails
 app.UseSerilogRequestLogging();
+app.UseSecurityHeaders();
+app.UseRateLimiter();
 
 if (app.Environment.IsDevelopment())
 {
