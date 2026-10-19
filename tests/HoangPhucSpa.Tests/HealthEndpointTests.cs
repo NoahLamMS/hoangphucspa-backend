@@ -32,13 +32,10 @@ public class HealthEndpointTests
         Assert.Equal("Unhealthy", body?.Status);
     }
 
-    [SqlServerFact]
+    [PostgresFact]
     public async Task Health_returns_200_Healthy_with_real_db()
     {
-        var password = Environment.GetEnvironmentVariable(SqlServerFactAttribute.PasswordVariable);
-        // Database=master luôn tồn tại, nên test không phụ thuộc DB HoangPhucSpa đã được tạo hay chưa.
-        var connectionString =
-            $"Server=localhost,1433;Database=master;User Id=sa;Password={password};TrustServerCertificate=True;Connect Timeout=5";
+        var connectionString = Environment.GetEnvironmentVariable(PostgresFactAttribute.ConnectionStringVariable);
         await using var factory = new ApiFactory(connectionString);
         using var client = factory.CreateClient();
 

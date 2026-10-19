@@ -1,6 +1,6 @@
 # hoangphucspa-backend — Agent Guide (Quy tắc phát triển toàn diện)
 
-Repo: `hoangphucspa-backend` (ASP.NET Core 10 Minimal API + EF Core + SQL Server).
+Repo: `hoangphucspa-backend` (ASP.NET Core 10 Minimal API + EF Core + PostgreSQL (Neon)).
 Solution: `HoangPhucSpa.slnx`.
 Cổng dev: 5080 (Scalar API Reference tại `/scalar`, OpenAPI tại `/openapi/v1.json`).
 
