@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HoangPhucSpa.Api/HoangPhucSpa.Api.csproj" />
+    <Project Path="src/HoangPhucSpa.Data/HoangPhucSpa.Data.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HoangPhucSpa.Tests/HoangPhucSpa.Tests.csproj" />
+  </Folder>
+</Solution>

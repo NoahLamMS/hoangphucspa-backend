@@ -1,0 +1,7 @@
+@host = http://localhost:5080
+
+### Liveness: không đụng DB
+GET {{host}}/api/v1/health/live
+
+### Readiness: kiểm tra DB
+GET {{host}}/api/v1/health

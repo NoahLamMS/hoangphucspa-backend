@@ -1,0 +1,17 @@
+bin/
+obj/
+artifacts/
+TestResults/
+*.user
+*.suo
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+.env
+.env.*
+!.env.example
+*.bak
+*.bacpac
+reports/

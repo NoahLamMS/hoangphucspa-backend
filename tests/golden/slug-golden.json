@@ -1,0 +1,7 @@
+[
+  { "input": "Chăm sóc & điều trị da", "generate": "cham-soc-dieu-tri-da" },
+  { "input": "  Giảm 50% phí!  ", "generate": "giam-50-phi" },
+  { "input": "Chăm sóc da - Thương hiệu Demo", "generate": "cham-soc-da-thuong-hieu-demo" },
+  { "input": "ĐIỀU TRỊ MỤN", "generate": "dieu-tri-mun" },
+  { "input": "Trị\u00a0mụn", "generate": "tri-mun" }
+]
