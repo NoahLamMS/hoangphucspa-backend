@@ -4,12 +4,34 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace HoangPhucSpa.Api.Infrastructure;
 
+/// <summary>
+/// Định nghĩa tên các chính sách giới hạn tần suất gọi API (Rate Limiting) theo từng nhóm chức năng.
+/// </summary>
+public static class RateLimitPolicies
+{
+    public const string Public = "public";
+    public const string Search = "search";
+    public const string Views = "views";
+    public const string Login = "login";
+    public const string ForgotPassword = "forgot";
+}
+
+/// <summary>
+/// Cấu hình giới hạn số lượng request theo địa chỉ IP của client (miễn trừ cho mạng nội bộ / container SSR).
+/// </summary>
 public static class RateLimiting
 {
-    public static IServiceCollection AddAppRateLimiting(this IServiceCollection services) => services.AddRateLimiter(o =>
+    private const string DefaultTrustedNetwork = "172.30.0.0/24";
+    private const int PublicPermitLimit = 300;
+    private const int SearchPermitLimit = 60;
+    private const int ViewsPermitLimit = 30;
+    private const int LoginPermitLimit = 5;
+    private const int ForgotPasswordPermitLimit = 3;
+
+    public static IServiceCollection AddAppRateLimiting(this IServiceCollection services) => services.AddRateLimiter(options =>
     {
-        o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        o.OnRejected = (ctx, _) =>
+        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+        options.OnRejected = (ctx, _) =>
         {
             if (ctx.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retry))
             {
@@ -17,11 +39,12 @@ public static class RateLimiting
             }
             return ValueTask.CompletedTask;
         };
-        o.AddPolicy("public", ctx => PerIp(ctx, 300, TimeSpan.FromMinutes(1)));
-        o.AddPolicy("search", ctx => PerIp(ctx, 60, TimeSpan.FromMinutes(1)));
-        o.AddPolicy("views", ctx => PerIp(ctx, 30, TimeSpan.FromMinutes(1)));
-        o.AddPolicy("login", ctx => PerIp(ctx, 5, TimeSpan.FromMinutes(1)));
-        o.AddPolicy("forgot", ctx => PerIp(ctx, 3, TimeSpan.FromHours(1)));
+
+        options.AddPolicy(RateLimitPolicies.Public, ctx => PerIp(ctx, PublicPermitLimit, TimeSpan.FromMinutes(1)));
+        options.AddPolicy(RateLimitPolicies.Search, ctx => PerIp(ctx, SearchPermitLimit, TimeSpan.FromMinutes(1)));
+        options.AddPolicy(RateLimitPolicies.Views, ctx => PerIp(ctx, ViewsPermitLimit, TimeSpan.FromMinutes(1)));
+        options.AddPolicy(RateLimitPolicies.Login, ctx => PerIp(ctx, LoginPermitLimit, TimeSpan.FromMinutes(1)));
+        options.AddPolicy(RateLimitPolicies.ForgotPassword, ctx => PerIp(ctx, ForgotPasswordPermitLimit, TimeSpan.FromHours(1)));
     });
 
     private static RateLimitPartition<string> PerIp(HttpContext ctx, int limit, TimeSpan window)
@@ -31,18 +54,20 @@ public static class RateLimiting
         {
             return RateLimitPartition.GetNoLimiter("internal");
         }
-        return RateLimitPartition.GetFixedWindowLimiter(ip.ToString(),
+
+        return RateLimitPartition.GetFixedWindowLimiter(
+            ip.ToString(),
             _ => new FixedWindowRateLimiterOptions { PermitLimit = limit, Window = window, QueueLimit = 0 });
     }
 
     private static bool IsInternal(HttpContext ctx, IPAddress ip)
     {
-        if (IPAddress.IsLoopback(ip)) return true;
-        var trusted = ctx.RequestServices.GetRequiredService<IConfiguration>()["Proxy:TrustedNetwork"];
-        if (IPNetwork.TryParse(trusted ?? "172.30.0.0/24", out var net))
+        if (IPAddress.IsLoopback(ip))
         {
-            return net.Contains(ip);
+            return true;
         }
-        return false;
+
+        var trusted = ctx.RequestServices.GetRequiredService<IConfiguration>()["Proxy:TrustedNetwork"];
+        return IPNetwork.TryParse(trusted ?? DefaultTrustedNetwork, out var net) && net.Contains(ip);
     }
 }

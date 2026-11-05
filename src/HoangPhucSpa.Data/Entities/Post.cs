@@ -4,11 +4,9 @@ public class Post : AuditableEntity, ISoftDeletable
 {
     public int Id { get; set; }
     public PostKind Kind { get; set; } = PostKind.News;
-    public int? LegacyId { get; set; }
-    public int PublicId { get; set; }
     public int? CategoryId { get; set; }
     public PostCategory? Category { get; set; }
-    public required string Name { get; set; }
+    public required string Title { get; set; }
     public required string Slug { get; set; }
     public string? Summary { get; set; }
     public string? SeoTitle { get; set; }
@@ -24,5 +22,4 @@ public class Post : AuditableEntity, ISoftDeletable
     public int SortOrder { get; set; }
     public string? SearchText { get; set; }
     public DateTime? DeletedAt { get; set; }
-    public byte[] RowVersion { get; set; } = [];
 }

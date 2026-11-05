@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace HoangPhucSpa.Data;
 
+/// <summary>
+/// Interceptor tự động điền thông tin người tạo/cập nhật, thời gian UTC và cấp mới RowVersion (Optimistic Concurrency) trước khi lưu vào PostgreSQL.
+/// </summary>
 public sealed class AuditSaveChangesInterceptor(ICurrentUser user, TimeProvider clock) : SaveChangesInterceptor
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
@@ -16,17 +19,20 @@ public sealed class AuditSaveChangesInterceptor(ICurrentUser user, TimeProvider 
             var now = clock.GetUtcNow().UtcDateTime;
             var userId = user.Id;
 
-            foreach (var e in eventData.Context.ChangeTracker.Entries<AuditableEntity>())
+            foreach (var entry in eventData.Context.ChangeTracker.Entries<AuditableEntity>())
             {
-                if (e.State == EntityState.Added)
+                if (entry.State == EntityState.Added)
                 {
-                    e.Entity.CreatedAt = now;
-                    e.Entity.CreatedById = userId;
+                    entry.Entity.CreatedAt = now;
+                    entry.Entity.CreatedById = userId;
                 }
-                if (e.State is EntityState.Added or EntityState.Modified)
+
+                if (entry.State is EntityState.Added or EntityState.Modified)
                 {
-                    e.Entity.UpdatedAt = now;
-                    e.Entity.UpdatedById = userId;
+                    entry.Entity.UpdatedAt = now;
+                    entry.Entity.UpdatedById = userId;
+                    // Sinh mã RowVersion mới để EF Core kiểm tra xung đột ghi đồng thời (Optimistic Concurrency) trên PostgreSQL.
+                    entry.Entity.RowVersion = Guid.NewGuid().ToByteArray();
                 }
             }
         }

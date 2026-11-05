@@ -8,14 +8,12 @@ public enum PostKind : byte
 
 public enum RedirectSource : byte
 {
-    Legacy = 1,
-    SlugChange = 2,
-    Manual = 3
+    SlugChange = 1,
+    Manual = 2
 }
 
 public enum MediaSource : byte
 {
-    Legacy = 1,
-    Upload = 2,
-    Demo = 3
+    Upload = 1,
+    Demo = 2
 }

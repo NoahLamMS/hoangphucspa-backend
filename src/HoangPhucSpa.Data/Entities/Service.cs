@@ -16,7 +16,6 @@ public class Service : AuditableEntity, ISoftDeletable
     public int SortOrder { get; set; }
     public string? SearchText { get; set; }
     public DateTime? DeletedAt { get; set; }
-    public byte[] RowVersion { get; set; } = [];
 
     public List<SubService> SubServices { get; set; } = [];
 }

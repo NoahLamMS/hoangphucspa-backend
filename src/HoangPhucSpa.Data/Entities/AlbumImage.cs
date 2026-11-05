@@ -8,4 +8,5 @@ public class AlbumImage
     public required string ImageUrl { get; set; }
     public string? Caption { get; set; }
     public int SortOrder { get; set; }
+    public bool IsVisible { get; set; } = true;
 }

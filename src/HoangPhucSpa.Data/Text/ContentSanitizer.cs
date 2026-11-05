@@ -2,6 +2,9 @@ using Ganss.Xss;
 
 namespace HoangPhucSpa.Data.Text;
 
+/// <summary>
+/// Làm sạch mã HTML trước khi lưu vào DB nhằm chống tấn công XSS nhưng vẫn giữ lại thẻ định dạng bài viết và iframe hợp lệ (YouTube, Google Maps).
+/// </summary>
 public static class ContentSanitizer
 {
     public static HtmlSanitizer Create()
