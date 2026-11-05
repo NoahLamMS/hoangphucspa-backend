@@ -4,8 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace HoangPhucSpa.Data.Text;
 
+/// <summary>
+/// Tiện ích xử lý chuỗi tiếng Việt: tạo đường dẫn tĩnh (slug), kiểm tra tính hợp lệ của slug và tạo chuỗi tìm kiếm không dấu.
+/// </summary>
 public static partial class SlugHelper
 {
+    /// <summary>
+    /// Chuyển tiêu đề tiếng Việt có dấu thành slug chuẩn (chữ thường, không dấu, nối bằng dấu gạch ngang).
+    /// </summary>
     public static string Generate(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return "";
@@ -14,8 +20,14 @@ public static partial class SlugHelper
         return s.Trim('-');
     }
 
+    /// <summary>
+    /// Kiểm tra chuỗi có đúng định dạng slug chuẩn (chỉ gồm a-z, 0-9 và dấu '-' ở giữa) hay không.
+    /// </summary>
     public static bool IsValid(string slug) => ValidSlugRegex().IsMatch(slug);
 
+    /// <summary>
+    /// Gộp nhiều đoạn văn bản và chuyển về dạng chữ thường không dấu để phục vụ tìm kiếm toàn văn (SearchText).
+    /// </summary>
     public static string ToSearchText(params string?[] parts)
     {
         var joined = string.Join(' ', parts.Where(p => !string.IsNullOrWhiteSpace(p)));

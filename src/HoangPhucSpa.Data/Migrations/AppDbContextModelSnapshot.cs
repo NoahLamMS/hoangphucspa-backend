@@ -30,6 +30,9 @@ namespace HoangPhucSpa.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CoverImageId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -43,13 +46,12 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -58,8 +60,8 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
@@ -82,6 +84,8 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.HasIndex("Slug")
                         .IsUnique();
+
+                    b.HasIndex("IsVisible", "SortOrder");
 
                     b.ToTable("Albums");
                 });
@@ -106,12 +110,17 @@ namespace HoangPhucSpa.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<bool>("IsVisible")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlbumId");
+                    b.HasIndex("AlbumId", "IsVisible", "SortOrder");
 
                     b.ToTable("AlbumImages");
                 });
@@ -331,8 +340,9 @@ namespace HoangPhucSpa.Data.Migrations
                         .HasPrecision(9, 6)
                         .HasColumnType("numeric(9,6)");
 
-                    b.Property<string>("MapEmbedHtml")
-                        .HasColumnType("text");
+                    b.Property<string>("MapEmbedUrl")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("MapUrl")
                         .HasMaxLength(1000)
@@ -342,10 +352,6 @@ namespace HoangPhucSpa.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<string>("OldAddress")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("OpeningHours")
                         .HasMaxLength(200)
@@ -359,7 +365,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<int>("SortOrder")
@@ -377,6 +382,8 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsVisible", "SortOrder");
+
                     b.ToTable("Branches");
                 });
 
@@ -389,12 +396,11 @@ namespace HoangPhucSpa.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AnswerHtml")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AskerEmail")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("AskerName")
                         .HasMaxLength(200)
@@ -413,13 +419,12 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.Property<string>("Question")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -521,18 +526,19 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<Guid?>("CreatedById")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsVisible")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("LegacyPostId")
-                        .HasColumnType("integer");
-
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -548,6 +554,11 @@ namespace HoangPhucSpa.Data.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<string>("SeoTitle")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
@@ -573,6 +584,9 @@ namespace HoangPhucSpa.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
                         .IsUnique();
 
                     b.ToTable("Pages");
@@ -616,31 +630,17 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte>("Kind")
                         .HasColumnType("smallint");
 
-                    b.Property<int?>("LegacyId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<int>("PublicId")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("integer")
-                        .HasComputedColumnSql("COALESCE(\"LegacyId\", \"Id\")", true);
-
                     b.Property<DateTime>("PublishedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
-                        .HasMaxLength(3000)
-                        .HasColumnType("character varying(3000)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
 
                     b.Property<string>("SeoDescription")
                         .HasMaxLength(500)
@@ -656,8 +656,8 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
@@ -667,6 +667,11 @@ namespace HoangPhucSpa.Data.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<string>("ThumbnailUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
@@ -683,17 +688,11 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Kind", "LegacyId")
-                        .IsUnique()
-                        .HasFilter("\"LegacyId\" IS NOT NULL");
-
-                    b.HasIndex("Kind", "PublicId")
-                        .IsUnique();
-
                     b.HasIndex("Kind", "Slug")
                         .HasFilter("\"DeletedAt\" IS NULL");
 
-                    b.HasIndex("Kind", "IsVisible", "PublishedAt");
+                    b.HasIndex("Kind", "IsVisible", "CategoryId", "SortOrder", "PublishedAt")
+                        .HasFilter("\"DeletedAt\" IS NULL");
 
                     b.ToTable("Posts");
                 });
@@ -712,6 +711,9 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<Guid?>("CreatedById")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsVisible")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -719,9 +721,6 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.Property<byte>("Kind")
                         .HasColumnType("smallint");
-
-                    b.Property<int?>("LegacyId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -731,7 +730,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -860,7 +858,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -907,7 +904,8 @@ namespace HoangPhucSpa.Data.Migrations
                         .IsUnique()
                         .HasFilter("\"DeletedAt\" IS NULL");
 
-                    b.HasIndex("IsVisible", "SortOrder");
+                    b.HasIndex("IsVisible", "SortOrder")
+                        .HasFilter("\"DeletedAt\" IS NULL");
 
                     b.ToTable("Services");
                 });
@@ -946,8 +944,8 @@ namespace HoangPhucSpa.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AltText")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -972,7 +970,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<int>("SortOrder")
@@ -1032,7 +1029,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<string>("SearchText")
@@ -1078,10 +1074,11 @@ namespace HoangPhucSpa.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsVisible", "SortOrder");
-
                     b.HasIndex("ServiceId", "Slug")
                         .IsUnique()
+                        .HasFilter("\"DeletedAt\" IS NULL");
+
+                    b.HasIndex("ServiceId", "IsVisible", "SortOrder")
                         .HasFilter("\"DeletedAt\" IS NULL");
 
                     b.ToTable("SubServices");
@@ -1095,29 +1092,28 @@ namespace HoangPhucSpa.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Content")
+                    b.Property<string>("AuthorName")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("AuthorTitle")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("ContentHtml")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("CreatedById")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("CustomerAvatarUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<string>("CustomerTitle")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("IsVisible")
                         .ValueGeneratedOnAdd()
@@ -1130,7 +1126,6 @@ namespace HoangPhucSpa.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
                     b.Property<int>("SortOrder")

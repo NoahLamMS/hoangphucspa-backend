@@ -8,7 +8,7 @@ public class SlugHelperTests
     private sealed record GoldenCase(string Input, string Generate);
 
     [Fact]
-    public void Generate_matches_golden_cases()
+    public void Generate_Should_MatchGoldenCases_When_GivenGoldenDataset()
     {
         var goldenPath = Path.Combine(AppContext.BaseDirectory, "golden", "slug-golden.json");
         var json = File.ReadAllText(goldenPath);
@@ -22,7 +22,7 @@ public class SlugHelperTests
     }
 
     [Fact]
-    public void ToSearchText_normalizes_diacritics_and_spaces()
+    public void ToSearchText_Should_NormalizeDiacriticsAndSpaces_When_GivenMultipleStrings()
     {
         var result = SlugHelper.ToSearchText("Trị Mụn  LƯNG", "và", "VẾT THÂM");
         Assert.Equal("tri mun lung va vet tham", result);
@@ -35,7 +35,7 @@ public class SlugHelperTests
     [InlineData("tri--mun", false)]
     [InlineData("tri mun", false)]
     [InlineData("", false)]
-    public void IsValid_validates_correctly(string slug, bool expected)
+    public void IsValid_Should_ReturnExpectedResult_When_GivenCandidateSlug(string slug, bool expected)
     {
         Assert.Equal(expected, SlugHelper.IsValid(slug));
     }

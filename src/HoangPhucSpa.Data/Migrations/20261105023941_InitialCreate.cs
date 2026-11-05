@@ -20,18 +20,19 @@ namespace HoangPhucSpa.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Slug = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    Slug = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     Summary = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     ThumbnailUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    CoverImageId = table.Column<int>(type: "integer", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     SearchText = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,23 +112,22 @@ namespace HoangPhucSpa.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Address = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    OldAddress = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Phone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     ZaloPhone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     FacebookUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     FacebookHandle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     MapUrl = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    MapEmbedHtml = table.Column<string>(type: "text", nullable: true),
+                    MapEmbedUrl = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     Latitude = table.Column<decimal>(type: "numeric(9,6)", precision: 9, scale: 6, nullable: true),
                     Longitude = table.Column<decimal>(type: "numeric(9,6)", precision: 9, scale: 6, nullable: true),
                     OpeningHours = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,18 +140,18 @@ namespace HoangPhucSpa.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Question = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    AnswerHtml = table.Column<string>(type: "text", nullable: false),
+                    Question = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    AnswerHtml = table.Column<string>(type: "text", nullable: true),
                     AskerName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    AskerEmail = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    AskerEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     SearchText = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,7 +188,7 @@ namespace HoangPhucSpa.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Key = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    LegacyPostId = table.Column<int>(type: "integer", nullable: true),
+                    Slug = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Title = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     Summary = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     SeoTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
@@ -197,12 +197,13 @@ namespace HoangPhucSpa.Data.Migrations
                     ThumbnailUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     BannerUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     ContentHtml = table.Column<string>(type: "text", nullable: true),
+                    IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     SearchText = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,7 +217,6 @@ namespace HoangPhucSpa.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Kind = table.Column<byte>(type: "smallint", nullable: false),
-                    LegacyId = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Slug = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Summary = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
@@ -225,13 +225,14 @@ namespace HoangPhucSpa.Data.Migrations
                     SeoKeywords = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     ThumbnailUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    IsSystem = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     SearchText = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,11 +277,11 @@ namespace HoangPhucSpa.Data.Migrations
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     SearchText = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -309,16 +310,16 @@ namespace HoangPhucSpa.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    AltText = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    AltText = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
                     ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     LinkUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -331,18 +332,18 @@ namespace HoangPhucSpa.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    CustomerTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    CustomerAvatarUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    AuthorName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    AuthorTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    AvatarUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Rating = table.Column<byte>(type: "smallint", nullable: false),
-                    Content = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    ContentHtml = table.Column<string>(type: "text", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,7 +359,8 @@ namespace HoangPhucSpa.Data.Migrations
                     AlbumId = table.Column<int>(type: "integer", nullable: false),
                     ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Caption = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false)
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -484,11 +486,9 @@ namespace HoangPhucSpa.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Kind = table.Column<byte>(type: "smallint", nullable: false),
-                    LegacyId = table.Column<int>(type: "integer", nullable: true),
-                    PublicId = table.Column<int>(type: "integer", nullable: false, computedColumnSql: "COALESCE(\"LegacyId\", \"Id\")", stored: true),
                     CategoryId = table.Column<int>(type: "integer", nullable: true),
-                    Name = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    Slug = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    Title = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Slug = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Summary = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     SeoTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     SeoDescription = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
@@ -501,13 +501,13 @@ namespace HoangPhucSpa.Data.Migrations
                     IsHot = table.Column<bool>(type: "boolean", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    SearchText = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: true),
+                    SearchText = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -540,11 +540,11 @@ namespace HoangPhucSpa.Data.Migrations
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     SearchText = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedById = table.Column<Guid>(type: "uuid", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -567,9 +567,14 @@ namespace HoangPhucSpa.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AlbumImages_AlbumId",
+                name: "IX_AlbumImages_AlbumId_IsVisible_SortOrder",
                 table: "AlbumImages",
-                column: "AlbumId");
+                columns: new[] { "AlbumId", "IsVisible", "SortOrder" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Albums_IsVisible_SortOrder",
+                table: "Albums",
+                columns: new[] { "IsVisible", "SortOrder" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Albums_Slug",
@@ -620,6 +625,11 @@ namespace HoangPhucSpa.Data.Migrations
                 column: "OccurredAt");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Branches_IsVisible_SortOrder",
+                table: "Branches",
+                columns: new[] { "IsVisible", "SortOrder" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Faqs_IsVisible_SortOrder",
                 table: "Faqs",
                 columns: new[] { "IsVisible", "SortOrder" });
@@ -634,6 +644,12 @@ namespace HoangPhucSpa.Data.Migrations
                 name: "IX_Pages_Key",
                 table: "Pages",
                 column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pages_Slug",
+                table: "Pages",
+                column: "Slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -653,22 +669,10 @@ namespace HoangPhucSpa.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_Kind_IsVisible_PublishedAt",
+                name: "IX_Posts_Kind_IsVisible_CategoryId_SortOrder_PublishedAt",
                 table: "Posts",
-                columns: new[] { "Kind", "IsVisible", "PublishedAt" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_Kind_LegacyId",
-                table: "Posts",
-                columns: new[] { "Kind", "LegacyId" },
-                unique: true,
-                filter: "\"LegacyId\" IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_Kind_PublicId",
-                table: "Posts",
-                columns: new[] { "Kind", "PublicId" },
-                unique: true);
+                columns: new[] { "Kind", "IsVisible", "CategoryId", "SortOrder", "PublishedAt" },
+                filter: "\"DeletedAt\" IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_Kind_Slug",
@@ -685,7 +689,8 @@ namespace HoangPhucSpa.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Services_IsVisible_SortOrder",
                 table: "Services",
-                columns: new[] { "IsVisible", "SortOrder" });
+                columns: new[] { "IsVisible", "SortOrder" },
+                filter: "\"DeletedAt\" IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_Slug",
@@ -700,9 +705,10 @@ namespace HoangPhucSpa.Data.Migrations
                 columns: new[] { "IsVisible", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubServices_IsVisible_SortOrder",
+                name: "IX_SubServices_ServiceId_IsVisible_SortOrder",
                 table: "SubServices",
-                columns: new[] { "IsVisible", "SortOrder" });
+                columns: new[] { "ServiceId", "IsVisible", "SortOrder" },
+                filter: "\"DeletedAt\" IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubServices_ServiceId_Slug",

@@ -9,5 +9,4 @@ public class Slide : AuditableEntity
     public string? LinkUrl { get; set; }
     public int SortOrder { get; set; }
     public bool IsVisible { get; set; } = true;
-    public byte[] RowVersion { get; set; } = [];
 }

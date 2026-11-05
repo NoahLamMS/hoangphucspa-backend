@@ -1,8 +1,6 @@
 <Project>
   <PropertyGroup>
-    <!-- Quản lý version NuGet tập trung; chỉ dùng version cố định, không range/wildcard -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <!-- Cho phép ghim version của package gián tiếp (xem Pkcs bên dưới) -->
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>

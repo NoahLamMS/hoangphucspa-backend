@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace HoangPhucSpa.Tests;
 
 /// <summary>
-/// Host test của API. Cấu hình được tiêm bằng UseSetting vì user-secrets không nạp trong test host.
+/// Khởi tạo host kiểm thử tích hợp (Integration Test) cho API.
+/// Dùng UseSetting để bơm cấu hình mẫu vì user-secrets không tự nạp trong môi trường test.
 /// </summary>
 public sealed class ApiFactory(string? connectionString = null) : WebApplicationFactory<Program>
 {
-    // Chuỗi GIẢ, chỉ dùng cho test (không phải secret thật): đủ 32 ký tự để qua validation.
+    // Chuỗi khoá giả chỉ dùng cho môi trường test (đủ 32 ký tự để vượt qua bước kiểm tra cấu hình).
     private const string TestOnlyRevalidateSecret = "test-only-not-a-real-secret-0123456789abcdef";
 
-    // Chuỗi kết nối GIẢ trỏ cổng không có dịch vụ nào: dùng để kiểm tra trường hợp DB không truy cập được.
+    // Chuỗi kết nối trỏ tới cổng không hoạt động để giả lập tình huống mất kết nối DB.
     private const string UnreachableConnectionString =
         "Host=localhost;Port=1;Database=HoangPhucSpa;Username=postgres;Password=fake;Timeout=2;Command Timeout=2;";
 

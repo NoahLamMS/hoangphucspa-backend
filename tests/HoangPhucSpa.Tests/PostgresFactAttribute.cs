@@ -1,7 +1,7 @@
 namespace HoangPhucSpa.Tests;
 
 /// <summary>
-/// Test cần PostgreSQL / Neon thật. Bỏ qua khi thiếu biến môi trường POSTGRES_CONNECTION_STRING.
+/// Đánh dấu các test cần kết nối PostgreSQL thật. Tự động bỏ qua (Skip) nếu chưa cấu hình biến môi trường POSTGRES_CONNECTION_STRING.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class PostgresFactAttribute : FactAttribute
@@ -11,6 +11,8 @@ public sealed class PostgresFactAttribute : FactAttribute
     public PostgresFactAttribute()
     {
         if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(ConnectionStringVariable)))
-            Skip = $"Thiếu biến môi trường {ConnectionStringVariable} để chạy test DB PostgreSQL thật.";
+        {
+            Skip = $"Thiếu biến môi trường {ConnectionStringVariable} để chạy test kết nối PostgreSQL thật.";
+        }
     }
 }

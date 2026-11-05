@@ -7,7 +7,7 @@ namespace HoangPhucSpa.Tests;
 public class HealthEndpointTests
 {
     [Fact]
-    public async Task Live_returns_200_Healthy()
+    public async Task GetLive_Should_Return200Healthy_When_ApplicationIsRunning()
     {
         await using var factory = new ApiFactory();
         using var client = factory.CreateClient();
@@ -20,7 +20,7 @@ public class HealthEndpointTests
     }
 
     [Fact]
-    public async Task Health_returns_503_Unhealthy_when_db_unreachable()
+    public async Task GetReady_Should_Return503Unhealthy_When_DatabaseIsUnreachable()
     {
         await using var factory = new ApiFactory();
         using var client = factory.CreateClient();
@@ -33,7 +33,7 @@ public class HealthEndpointTests
     }
 
     [PostgresFact]
-    public async Task Health_returns_200_Healthy_with_real_db()
+    public async Task GetReady_Should_Return200Healthy_When_DatabaseIsReachable()
     {
         var connectionString = Environment.GetEnvironmentVariable(PostgresFactAttribute.ConnectionStringVariable);
         await using var factory = new ApiFactory(connectionString);
@@ -47,7 +47,7 @@ public class HealthEndpointTests
     }
 
     [Fact]
-    public async Task OpenApi_is_served_in_Development()
+    public async Task OpenApi_Should_Return200WithSchema_When_EnvironmentIsDevelopment()
     {
         await using var factory = new ApiFactory();
         using var client = factory.CreateClient();
